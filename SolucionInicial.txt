@@ -4,9 +4,7 @@ Codigo del programa:
 1. La ejecucion del programa se hara tal cual lo dice el punto 1.
 2. Para el punto 2 se creara un arreglo de enteros con la cantidad de cuentas que diga la variable numero_cuentas
    y a todas las cuentas se les asiganara el valor de la variable valor_inicial.
-3. Para el ṕunto 3 se crearan tres metodos llamados depositos, retiros y transferencias respectivamente, y el metodo
-   transferencias usara los metodos depositos y retiros para realizar la transferencia, para que no hallan condiciones
-   de carrera se aplicaran mutex.
+3. Para el ṕunto 3 se crear el metodo transferencias para que no hallan condiciones de carrera se aplicaran mutex.
 4. Se usara la libreria de hilos pthread.h para crear el numerode hilos que indique la variable numeroDeHilos, 
    para la seleccion aleatoria de las cuentas se usara la funcion rand() asi mismo para la cantidad de monto en la
    transferencia. la cantidad de tiempo a correr se hara con la funcion gettimeofday().
