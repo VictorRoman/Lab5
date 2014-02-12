@@ -14,6 +14,10 @@ int numCuentas;//Guarda el numero de cuentas pasado por el parametro
 int valorIni;//Guarda el valor inicial pasado por el parametro
 pthread_mutex_t mutex;//mutex para sincronizar la operacion sobre los datos
 
+//esta variable contiene la fecha y hora (en timestamp) hasta que el hilo debe
+//ejecutarse
+int tiempoFinEje;
+
 int main(int argc, char* argv[])
 {
 	int args[4];//para guardar los numeros de los argumentos
@@ -60,6 +64,10 @@ int main(int argc, char* argv[])
 
 	pthread_mutex_init(&mutex, NULL);//inicio el mutex
 	
+	
+	//Se asigna el timastamp que contiene la fecha y hora final
+        tiempoFinEje = (unsigned)time(NULL) + tiempo;
+        
 	for(i = 0; i < numHilos; i++)
 	{//ciclo para ejecutar el metodo transacciones de todos los hilos
 		pthread_create(&hilo[i], NULL, (void*)transferencias, cuentas);
@@ -85,31 +93,38 @@ int main(int argc, char* argv[])
 
 void transferencias(int cuentas[])
 {//metodo para realizar transferencias
-	pthread_mutex_lock(&mutex);//bloquea el mutex para una entrada sincronizada
-	int i;
-	for(i = 0; i < ((tiempo * 1000) / 1000); i++)
-	{//ciclo para que cada el hilo se ejecute el tiempo pasado por parametro
-		srand((time(NULL) * pthread_self()));//genera un numero aleatorio para la cuenta
-		int numero1 = rand() % (numCuentas);//guarda el numero aleatorio
-		int numero2;
-		do
-		{
-			srand((time(NULL) * pthread_self()));//genera otro numero aleatorio para la cuenta
-			numero2 = rand() % (numCuentas);//guarda el otro numero
-		}while(numero1 == numero2);//verifica que no salga el mismo numero
-		srand((time(NULL) * pthread_self()));//genera otro numero aleatorio para el valor transferido
-		int cantidad = rand() % (valorIni);//guarda el numero
-		if((cuentas[numero1] - cantidad) >= 0)
-		{//verifica que la cuenta no quede menor que cero
-		//se hace la transferencia
-			cuentas[numero1] = cuentas[numero1] - cantidad;
-			cuentas[numero2] = cuentas[numero2] + cantidad;
+
+	while((unsigned)time(NULL) < tiempoFinEje)
+	{
+        	//Aqui se debe ubicar todo el código que se ejecutara por 
+        	//el tiempo definido a la invocacion
+        	pthread_mutex_lock(&mutex);//bloquea el mutex para una entrada sincronizada
+		int i;
+		for(i = 0; i < ((tiempo * 1000) / 1000); i++)
+		{//ciclo para que cada el hilo se ejecute el tiempo pasado por parametro
+			srand((time(NULL) * pthread_self()));//genera un numero aleatorio para la cuenta
+			int numero1 = rand() % (numCuentas);//guarda el numero aleatorio
+			int numero2;
+			do
+			{
+				srand((time(NULL) * pthread_self()));//genera otro numero aleatorio para la cuenta
+				numero2 = rand() % (numCuentas);//guarda el otro numero
+			}while(numero1 == numero2);//verifica que no salga el mismo numero
+			srand((time(NULL) * pthread_self()));//genera otro numero aleatorio para el valor transferido
+			int cantidad = rand() % (valorIni);//guarda el numero
+			if((cuentas[numero1] - cantidad) >= 0)
+			{//verifica que la cuenta no quede menor que cero
+			//se hace la transferencia
+				cuentas[numero1] = cuentas[numero1] - cantidad;
+				cuentas[numero2] = cuentas[numero2] + cantidad;
+			}
+			else
+			{//con este mensaje se verifica que los hilos no traten de acceder a la misma cuenta siempre
+				printf("No se puede realizar la transferencia de la cuenta %d a la cuenta %d ya que no se cuenta con los fondos suficientes\n", numero1, numero2);
+			}
+		sleep(1);//duerme un segundo
 		}
-		else
-		{//con este mensaje se verifica que los hilos no traten de acceder a la misma cuenta siempre
-			printf("No se puede realizar la transferencia de la cuenta %d a la cuenta %d ya que no se cuenta con los fondos suficientes\n", numero1, numero2);
-		}
-	sleep(1);//duerme un segundo
-	}
-	pthread_mutex_unlock(&mutex);//desbloquea el mutex
+		pthread_mutex_unlock(&mutex);//desbloquea el mutex
+    	}
+	
 }
