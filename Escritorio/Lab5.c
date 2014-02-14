@@ -1,8 +1,11 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
 #include <pthread.h>
+#include <sys/ipc.h>
+#include <sys/shm.h>
 
 //Prototipo de funciones
 void transferencias(int cuentas[]);
@@ -59,7 +62,7 @@ int main(int argc, char* argv[])
 	pthread_t hilo[numHilos];//Creo la cantidad de hilos
 
 	pthread_mutex_init(&mutex, NULL);//inicio el mutex
-	
+
 	for(i = 0; i < numHilos; i++)
 	{//ciclo para ejecutar el metodo transacciones de todos los hilos
 		pthread_create(&hilo[i], NULL, (void*)transferencias, cuentas);
@@ -72,6 +75,47 @@ int main(int argc, char* argv[])
 		pthread_join(hilo[i], NULL);
 	}
 
+	float tamanio = sizeof(cuentas);//calculamos el tamaño en bytes
+
+	int shmid;//Id del espacio de memoria
+	key_t key;//Clave comun para entrar al espacio de memoria
+	int *shm, *s;//Punteros al espacio de memoria
+
+	key = 5678;//Clave compartida
+	if((shmid = shmget(key, tamanio, IPC_CREAT | 0777)) < 0) 
+	{//Se crea el espacio de memoria
+        	printf("Ocurrio un error creando el espacio de memoria");
+        	return EXIT_FAILURE;
+    	}
+	if((shm = shmat(shmid, NULL, 0)) == (int *) -1) 
+	{//Se accede al espacio de memoria creado
+        	printf("Ocurrio un error accediendo al espacio de memoria");
+        	return EXIT_FAILURE;
+    	}
+	s = shm;//pone el puntero al inicio de la memoria compartida
+	for(i = 0; i < numCuentas; i++)
+	{//Se copia el contenido del vector cuentas en la memoria
+		*s++ = cuentas[i];
+	}
+	s = NULL;
+
+	/*if((shmid = shmget(key, tamanio, 0666)) < 0) 
+	{
+        	printf("Ocurrio un error creando el espacio de memoria");
+        	return EXIT_FAILURE;
+    	}
+	if((shm = shmat(shmid, NULL, 0)) == (int *) -1) 
+	{
+        	printf("Ocurrio un error accediendo al espacio de memoria");
+        	return EXIT_FAILURE;
+    	}
+	s = shm;//pone el puntero al inicio de la memoria
+	for(i = 0; i < numCuentas; i++)
+	{//lee los numeros
+		printf("%d\n", *s++);
+		
+	}
+
 	int suma = 0;//variable para obtener la suma de las cuentas
 	for(i = 0; i < numCuentas; i++)
 	{//cilo para realizar la suma de las cuentas y mostrar la cantidad en cada cuenta
@@ -79,7 +123,7 @@ int main(int argc, char* argv[])
 		printf("cuenta %d %d\n", i, j);
 		suma = suma + j;
 	}
-	printf("suma %d\n", suma);//muestra la suma en todas las cuentas
+	printf("suma %d\n", suma);//muestra la suma en todas las cuentas*/
 	return EXIT_SUCCESS;
 }
 
@@ -107,7 +151,7 @@ void transferencias(int cuentas[])
 		}
 		else
 		{//con este mensaje se verifica que los hilos no traten de acceder a la misma cuenta siempre
-			printf("No se puede realizar la transferencia de la cuenta %d a la cuenta %d ya que no se cuenta con los fondos suficientes\n", numero1, numero2);
+			//printf("No se puede realizar la transferencia de la cuenta %d a la cuenta %d ya que no se cuenta con los fondos suficientes\n", numero1, numero2);
 		}
 	sleep(1);//duerme un segundo
 	}
