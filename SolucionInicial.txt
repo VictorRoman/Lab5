@@ -8,10 +8,12 @@ Codigo del programa:
 4. Se usara la libreria de hilos pthread.h para crear el numerode hilos que indique la variable numeroDeHilos, 
    para la seleccion aleatoria de las cuentas se usara la funcion rand() asi mismo para la cantidad de monto en la
    transferencia. la cantidad de tiempo a correr se hara con la funcion gettimeofday().
-5. El hilo princiapl imprimira el valor de todas las cuentas y la sumatoria de todas las cuentas.
+5. El hilo princiapl imprimira el valor de todas las cuentas y la sumatoria de todas las cuentas y lo pondra en 
+   memoria compartida.
 6. El programa llamara el programa anterior mediante la funcion exec y le pasara mediante un ciclo 
-   cada uno de los vectores del archivo de vectores, luego capturara la salida y verificara que fue correcto haciendo
-   una comparacion entre la sumatoria de las cuentas del programa anterior y el programa de prueba.
+   cada uno de los vectores del archivo de vectores, luego capturara la salida a traves de memoria compartida y 
+   verificara que fue correcto haciendo una comparacion entre la sumatoria de las cuentas del programa anterior
+   y el programa de prueba.
 7. El programa de prueba se correra como se indica.
 8. Se imprimira el resultado de si paso o no haciendo una comparacion entre las sumatorias de las cuentas de la sumatoria
    devuelta por el programa anterior y el calculo de los vectores.
