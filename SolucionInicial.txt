@@ -1,20 +1,20 @@
-En este documento se relata como sera la solucion inicial que se planteara para elaborar el laboratorio.
+En este documento se relata como será la solución inicial que se planteará para elaborar el laboratorio.
 
-Codigo del programa:
-1. La ejecucion del programa se hara tal cual lo dice el punto 1.
-2. Para el punto 2 se creara un arreglo de enteros con la cantidad de cuentas que diga la variable numero_cuentas
-   y a todas las cuentas se les asiganara el valor de la variable valor_inicial.
-3. Para el ṕunto 3 se crear el metodo transferencias para que no hallan condiciones de carrera se aplicaran mutex.
-4. Se usara la libreria de hilos pthread.h para crear el numerode hilos que indique la variable numeroDeHilos, 
-   para la seleccion aleatoria de las cuentas se usara la funcion rand() asi mismo para la cantidad de monto en la
-   transferencia. la cantidad de tiempo a correr se hara con la funcion gettimeofday().
-5. El hilo princiapl imprimira el valor de todas las cuentas y la sumatoria de todas las cuentas y lo pondra en 
+Código del programa:
+1. La ejecución del programa se hará tal cual lo dice el punto 1.
+2. Para el punto 2 se creará un arreglo de enteros con la cantidad de cuentas que diga la variable numero_cuentas
+   y a todas las cuentas se les asiganará el valor de la variable valor_inicial.
+3. Para el punto 3 se creará el método transferencias y para que no hallan condiciones de carrera se aplicarán mutex.
+4. Se usará la librería de hilos pthread.h para crear el número de hilos que indique la variable numeroDeHilos, 
+   para la selección aleatoria de las cuentas se usará la función rand() así mismo para la cantidad de monto en la
+   transferencia. la cantidad de tiempo a correr se hará con la función gettimeofday().
+5. El hilo principal imprimirá el valor de todas las cuentas y la sumatoria de todas las cuentas y lo pondrá en 
    memoria compartida.
-6. El programa llamara el programa anterior mediante la funcion exec y le pasara mediante un ciclo 
-   cada uno de los vectores del archivo de vectores, luego capturara la salida a traves de memoria compartida y 
-   verificara que fue correcto haciendo una comparacion entre la sumatoria de las cuentas del programa anterior
+6. El programa llamará el programa anterior mediante la función exec y le pasará mediante un ciclo 
+   cada uno de los vectores del archivo de vectores, luego capturará la salida a través de memoria compartida y 
+   verificará que fue correcto haciendo una comparación entre la sumatoria de las cuentas del programa anterior
    y el programa de prueba.
-7. El programa de prueba se correra como se indica.
-8. Se imprimira el resultado de si paso o no haciendo una comparacion entre las sumatorias de las cuentas de la sumatoria
-   devuelta por el programa anterior y el calculo de los vectores.
-9. Los vectores se escribiran en el archivo como se indica, un vector por linea.
+7. El programa de prueba se correrá como se indica.
+8. Se imprimirá el resultado de si pasó o no haciendo una comparación entre las sumatorias de las cuentas de la sumatoria
+   devuelta por el programa anterior y el cálculo de los vectores.
+9. Los vectores se escribirán en el archivo como se indica, un vector por línea.
