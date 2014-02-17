@@ -26,4 +26,6 @@ se describirán los problemas encontrados de acuerdo a los puntos por realizar e
    entonces el loop anterior se ejecutará 10000 ms / 1000 ms = 10 veces.
 6. Se encontró un problema a la hora de llevar la salida del programa base al programa prueba, se trató de 
    implementar con memoria compartida pero vimos mejores resultados usando un pipe para llevar la información
-   de un lado al otro.
+   de un lado al otro. Redireccionando el flujo de salida estandar mediante la función popen pudimos manejar 
+   la salida del programa principal como si fuera un archivo y así realizar la validaciones de una manera mas 
+   sencilla.
