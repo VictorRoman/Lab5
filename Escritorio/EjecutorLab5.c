@@ -1,3 +1,5 @@
+//COMPILACION: gcc -std=c99 -o EjecutorLab5 -lpthread EjecutorLab5.c
+//EJECUCION: ./EjecutorLab5 VectoresPrueba.txt
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
