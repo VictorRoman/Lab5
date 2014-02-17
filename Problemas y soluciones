@@ -1,0 +1,29 @@
+En este documento indicamos los problemas encontrados en la solución de la práctica y como los resolvimos,
+se describirán los problemas encontrados de acuerdo a los puntos por realizar en el documento solución inicial.
+
+2. Se encontró el problema de usar los parámetros pasados por consola en el método trasnferencias porque también
+   necesitabamos usarlos allí en el método y la solución fue crear unas variables globales y poner allí los datos 
+   pasados por parámetros.
+4. Se encontró un problema al momento de generar los números aleatorios con la función rand() ya que esta función
+   siempre generaba la misma serie de números y por ende seleccionaba las mismas cuentas y la misma cantidad de
+   transferencia, para su solución decidimos usar la función srand((time(NULL) * pthread_self())) 
+   con time(NULL) * pthread_sef() como semilla para generar un número distinto cada vez, y con la función rand() 
+   obtenemos ese número generado, time es el tiempo actual en que se ejecuta la función srand y pthread_self es 
+   el id que ejecuta el método transferencia, con la multiplicación de estos dos parametros tenemos un número
+   aleatorio diferente cada vez.
+   La cantidad de tiempo a correr no se hizo con gettimeofday() porque no podíamos calcular el tiempo en que tenía
+   que acabar el método entonces la solución fue usar un ciclo de esta manera:
+
+   for(i = 0; i < ((tiempo * 1000) / 1000); i++)
+   {
+	   hace_transacción();
+	   sleep(1); // duerme durante 1 segundo
+   }
+
+   En este caso se busca que el hilo se duerma durante 1 seg por lo tanto el hilo se debe ejecutar 
+   (tiempo * 1000) ms / 1000 ms veces.
+   Por ejemplo, si el hilo se debe ejecutar durante 10 segundos y hace transacciones cada 1000 ms, 
+   entonces el loop anterior se ejecutará 10000 ms / 1000 ms = 10 veces.
+6. Se encontró un problema a la hora de llevar la salida del programa base al programa prueba, se trató de 
+   implementar con memoria compartida pero vimos mejores resultados usando un pipe para llevar la información
+   de un lado al otro.
