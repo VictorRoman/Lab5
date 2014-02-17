@@ -28,4 +28,6 @@ se describirán los problemas encontrados de acuerdo a los puntos por realizar e
    implementar con memoria compartida pero vimos mejores resultados usando un pipe para llevar la información
    de un lado al otro. Redireccionando el flujo de salida estandar mediante la función popen pudimos manejar 
    la salida del programa principal como si fuera un archivo y así realizar la validaciones de una manera mas 
-   sencilla.
+   sencilla. Otra razón por la cual se usó la función popen fue debido a que al usar la función exec se transfiere 
+   el control al proceso que inicia despues de la invocación (Lab5) y finaliza la ejecución para el proceso del programa
+   que hace esta invocación (EjecutorLab5).
