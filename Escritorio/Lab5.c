@@ -1,3 +1,5 @@
+//COMPILACION: gcc -std=c99 -o Lab5 -lpthread Lab5.c
+//EJECUCION: ./Lab5 2 10 3 11
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
