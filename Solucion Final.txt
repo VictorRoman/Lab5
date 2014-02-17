@@ -11,10 +11,10 @@ Código del programa:
    transferencia. la cantidad de tiempo a correr se hizo creando un ciclo como se planteó en el documento problemas
    y soluciones.
 5. El hilo principal imprime el valor de todas las cuentas y la sumatoria de todas las cuentas.
-6. El programa llama el programa anterior mediante la función exec y le pasará mediante un ciclo
-   cada uno de los vectores del archivo de vectores, luego capturará la salida a través de un pipe y
-   verificará que fue correcto haciendo una comparación entre la sumatoria de las cuentas del programa anterior
-   y el programa de prueba.
+6. El programa llama el programa anterior mediante la función popen luego de generar la estructura correcta para su
+   invocación, obteniendo esta información de  cada uno de los vectores del archivo de vectores, luego capturará 
+   la salida a través de un pipe y verificará que fue correcto haciendo una comparación entre la sumatoria de las 
+   cuentas del programa anterior y el programa de prueba.
 7. El programa de prueba se corre como se indica.
 8. Se imprime el resultado de si pasó o no haciendo una comparación entre las sumatorias de las cuentas de la sumatoria
    devuelta por el programa anterior y el cálculo de los vectores.
