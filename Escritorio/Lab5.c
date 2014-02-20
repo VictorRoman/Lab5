@@ -129,9 +129,22 @@ void transferencias(void* param)
 			int unsigned seed2 = time(NULL) * pthread_self();
 			numero2 = rand_r(&seed2) % numCuentas;//genera otro numero aleatorio para la cuenta 2
 		}while(numero1 == numero2);//verifica que no salga el mismo numero
+		
+		int result1 = pthread_mutex_trylock(&(p->mutex[numero1]));
+		int result2 = pthread_mutex_trylock(&(p->mutex[numero2]));
 
-		pthread_mutex_lock(&(p->mutex[numero1]));//bloquea el mutex para una entrada sincronizada en la cuenta 1
-		pthread_mutex_lock(&(p->mutex[numero2]));//bloquea el mutex para una entrada sincronizada en la cuenta 2
+		while(result1 != 0 && result2 != 0)
+		{
+			if(result1 == 0){
+				pthread_mutex_unlock(&(p->mutex[numero1]));//desbloquea el mutex
+			}
+			if(result2 == 0){
+				pthread_mutex_unlock(&(p->mutex[numero2]));//desbloquea el mutex
+			}
+			sleep(1);//duerme un segundo
+			result1 = pthread_mutex_trylock(&(p->mutex[numero1]));
+			result2 = pthread_mutex_trylock(&(p->mutex[numero2]));
+		}
 
 		int unsigned seed3 = time(NULL) * pthread_self();	
 		int cantidad = rand_r(&seed3)  % valorIni;//genera otro numero aleatorio para el valor transferido
@@ -147,6 +160,5 @@ void transferencias(void* param)
 		}
 		pthread_mutex_unlock(&(p->mutex[numero2]));//desbloquea el mutex
 		pthread_mutex_unlock(&(p->mutex[numero1]));//desbloquea el mutex
-	sleep(1);//duerme un segundo
 	}
 }
